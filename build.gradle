@@ -7,6 +7,8 @@ buildscript {
 
   repositories {
     google()
+    mavenCentral()
+    // FIXME: get rid on `anko` library usage and remove this obsolete repo
     jcenter()
   }
   dependencies {
@@ -22,6 +24,8 @@ buildscript {
 allprojects {
   repositories {
     google()
+    mavenCentral()
+    // FIXME: get rid on `anko` library usage and remove this obsolete repo
     jcenter()
   }
 }

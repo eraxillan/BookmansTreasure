@@ -1,9 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-  ext.kotlin_version = '1.3.20'
-  ext.anko_version = '0.10.5'
-  ext.nav_version = '1.0.0-alpha04'
+  // Define versions in a single place
+  ext {
+    // Sdk and tools
+    compileSdkVersion = 30
+    minSdkVersion = 14
+    targetSdkVersion = 30
+
+    kotlin_version = '1.3.20'
+    anko_version = '0.10.5'
+    nav_version = '1.0.0-alpha04'
+  }
 
   repositories {
     google()

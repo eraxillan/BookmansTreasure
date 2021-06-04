@@ -31,9 +31,9 @@
 package com.raywenderlich.android.bookmanstreasure.ui.favorites
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.paging.LivePagedListBuilder
-import android.arch.paging.PagedList
+import androidx.lifecycle.AndroidViewModel
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.raywenderlich.android.bookmanstreasure.repository.FavoritesRepository
 
 class FavoritesViewModel(app: Application) : AndroidViewModel(app) {

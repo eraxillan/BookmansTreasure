@@ -30,9 +30,9 @@
 
 package com.raywenderlich.android.bookmanstreasure.util
 
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 
 fun Fragment.initToolbar(toolbar: Toolbar, titleResId: Int, backEnabled: Boolean) {
   val appCompatActivity = activity as AppCompatActivity

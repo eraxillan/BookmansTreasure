@@ -31,7 +31,7 @@
 package com.raywenderlich.android.bookmanstreasure.destinations
 
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
@@ -47,11 +47,16 @@ class AuthorDetailsNavigator(
     const val TAG = "author_details"
   }
 
-  override fun navigate(destination: Destination, args: Bundle?, navOptions: NavOptions?) {
+  override fun navigate(
+    destination: Destination,
+    args: Bundle?,
+    navOptions: NavOptions?,
+    navigatorExtras: Extras?
+  ): NavDestination? {
     val dialogFragment = AuthorDetailsDialog()
     dialogFragment.arguments = args
-
     dialogFragment.show(manager, TAG)
+    return createDestination()
   }
 
   override fun createDestination(): Destination {

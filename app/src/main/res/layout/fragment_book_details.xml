@@ -27,14 +27,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".ui.booksearch.BookSearchFragment">
 
-  <android.support.design.widget.AppBarLayout
+  <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -43,7 +43,7 @@ THE SOFTWARE.
       android:layout_height="wrap_content"
       android:theme="@style/AppTheme.AppBarOverlay">
 
-      <android.support.v7.widget.Toolbar
+      <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,7 +79,7 @@ THE SOFTWARE.
         app:layout_constraintStart_toEndOf="@+id/ivCover"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-      <android.support.v7.widget.RecyclerView
+      <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAuthors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -95,7 +95,7 @@ THE SOFTWARE.
         android:layout_marginRight="@dimen/margin_medium"
         android:nestedScrollingEnabled="false"
         android:scrollbars="none"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_author"
         tools:itemCount="1" />
 
@@ -106,9 +106,9 @@ THE SOFTWARE.
 
     </RelativeLayout>
 
-  </android.support.design.widget.AppBarLayout>
+  </com.google.android.material.appbar.AppBarLayout>
 
-  <android.support.v4.widget.NestedScrollView
+  <androidx.core.widget.NestedScrollView
     android:id="@+id/rvEditions"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -135,6 +135,6 @@ THE SOFTWARE.
 
     </LinearLayout>
 
-  </android.support.v4.widget.NestedScrollView>
+  </androidx.core.widget.NestedScrollView>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

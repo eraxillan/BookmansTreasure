@@ -30,8 +30,8 @@
 
 package com.raywenderlich.android.bookmanstreasure.source
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.paging.DataSource
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.DataSource
 import com.raywenderlich.android.bookmanstreasure.api.OpenLibraryApi
 import com.raywenderlich.android.bookmanstreasure.data.Book
 import com.raywenderlich.android.bookmanstreasure.data.Work

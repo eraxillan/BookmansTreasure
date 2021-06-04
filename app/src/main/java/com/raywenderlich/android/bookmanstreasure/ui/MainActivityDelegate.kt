@@ -30,7 +30,7 @@
 
 package com.raywenderlich.android.bookmanstreasure.ui
 
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 
 interface MainActivityDelegate {
   fun setupNavDrawer(toolbar: Toolbar)

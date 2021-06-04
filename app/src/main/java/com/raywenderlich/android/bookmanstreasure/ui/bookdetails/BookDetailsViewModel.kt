@@ -30,8 +30,8 @@
 
 package com.raywenderlich.android.bookmanstreasure.ui.bookdetails
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import android.os.Bundle
 import com.raywenderlich.android.bookmanstreasure.data.Book
 

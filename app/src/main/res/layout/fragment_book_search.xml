@@ -27,14 +27,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".ui.booksearch.BookSearchFragment">
 
-  <android.support.design.widget.AppBarLayout
+  <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -44,7 +44,7 @@ THE SOFTWARE.
       android:layout_height="wrap_content"
       android:orientation="vertical">
 
-      <android.support.v7.widget.Toolbar
+      <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,7 +65,7 @@ THE SOFTWARE.
           android:contentDescription="@string/book_search"
           android:src="@drawable/ic_search_white_24dp" />
 
-        <android.support.v7.widget.AppCompatSpinner
+        <androidx.appcompat.widget.AppCompatSpinner
           android:id="@+id/spnCriteria"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -85,13 +85,13 @@ THE SOFTWARE.
       </LinearLayout>
     </LinearLayout>
 
-  </android.support.design.widget.AppBarLayout>
+  </com.google.android.material.appbar.AppBarLayout>
 
-  <android.support.v7.widget.RecyclerView
+  <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/rvBooks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     tools:listitem="@layout/item_work"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
@@ -101,4 +101,4 @@ THE SOFTWARE.
     android:layout_height="wrap_content"
     android:layout_gravity="center" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -30,9 +30,9 @@
 
 package com.raywenderlich.android.bookmanstreasure.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import android.content.Context
 import com.raywenderlich.android.bookmanstreasure.data.Work
 

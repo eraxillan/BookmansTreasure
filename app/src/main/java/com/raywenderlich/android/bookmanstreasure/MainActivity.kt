@@ -32,10 +32,10 @@ package com.raywenderlich.android.bookmanstreasure
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -57,14 +57,12 @@ class MainActivity : AppCompatActivity(), MainActivityDelegate {
     val inflater = navHostFragment.findNavController().navInflater
     val graph = inflater.inflate(R.navigation.nav_graph)
     navHostFragment.findNavController().graph = graph
-
-    findNavController(this, R.id.navHostFragment).onHandleDeepLink(intent)
   }
 
   override fun onNewIntent(intent: Intent?) {
     super.onNewIntent(intent)
 
-    findNavController(this, R.id.navHostFragment).onHandleDeepLink(intent)
+    findNavController(this, R.id.navHostFragment).handleDeepLink(intent)
   }
 
   override fun onSupportNavigateUp() = findNavController(this, R.id.navHostFragment).navigateUp()

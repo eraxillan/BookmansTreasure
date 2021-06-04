@@ -76,7 +76,9 @@ class AuthorDetailsDialog : DialogFragment() {
         context?.getString(R.string.author_page_url, url)
       }
 
-      webView.loadUrl(authorUrl)
+      if (authorUrl != null) {
+        webView.loadUrl(authorUrl)
+      }
     })
   }
 

@@ -111,7 +111,7 @@ class BookSearchFragment : Fragment() {
 
   private fun initCriteriaSpinner() {
     val adapter = ArrayAdapter<String>(
-        context,
+        requireContext(),
         R.layout.item_search_criteria,
         SearchCriteria.values().map {
           it.name

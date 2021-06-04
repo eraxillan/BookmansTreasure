@@ -62,16 +62,16 @@ class WorkDetailsFragment : Fragment() {
     return inflater.inflate(R.layout.fragment_work_details, container, false)
   }
 
-  override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-    inflater?.inflate(R.menu.work_details, menu)
+  override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    inflater.inflate(R.menu.work_details, menu)
 
     // Make menu items invisible until details are loaded.
-    menu?.findItem(R.id.menuAddFavorite)?.isVisible = false
-    menu?.findItem(R.id.menuRemoveFavorite)?.isVisible = false
+    menu.findItem(R.id.menuAddFavorite)?.isVisible = false
+    menu.findItem(R.id.menuRemoveFavorite)?.isVisible = false
   }
 
-  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-    return when (item?.itemId) {
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    return when (item.itemId) {
       R.id.menuAddFavorite -> viewModel.addAsFavorite()
       R.id.menuRemoveFavorite -> viewModel.removeFromFavorites()
       else -> super.onOptionsItemSelected(item)

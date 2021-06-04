@@ -54,7 +54,7 @@ class FavoritesFragment : Fragment() {
 
   private lateinit var mainActivityDelegate: MainActivityDelegate
 
-  override fun onAttach(context: Context?) {
+  override fun onAttach(context: Context) {
     super.onAttach(context)
 
     try {

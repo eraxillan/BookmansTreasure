@@ -39,7 +39,7 @@ import com.raywenderlich.android.bookmanstreasure.data.Work
 /**
  * Favorites database schema.
  */
-@Database(entities = [Work::class], version = 1)
+@Database(entities = [Work::class], version = 1, exportSchema = false)
 abstract class FavoritesDatabase : RoomDatabase() {
   companion object {
 

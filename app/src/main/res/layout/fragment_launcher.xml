@@ -29,10 +29,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/splash"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.launcher.LauncherFragment">
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/splash"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".ui.launcher.LauncherFragment">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

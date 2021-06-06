@@ -30,8 +30,6 @@
 
 package com.raywenderlich.android.bookmanstreasure.ui.booksearch
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -42,19 +40,22 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.raywenderlich.android.bookmanstreasure.R
 import com.raywenderlich.android.bookmanstreasure.data.SearchCriteria
+import com.raywenderlich.android.bookmanstreasure.databinding.FragmentBookSearchBinding
 import com.raywenderlich.android.bookmanstreasure.source.NetworkState
 import com.raywenderlich.android.bookmanstreasure.ui.MainActivityDelegate
 import com.raywenderlich.android.bookmanstreasure.ui.workdetails.WorkDetailsViewModel
 import com.raywenderlich.android.bookmanstreasure.util.initToolbar
-import kotlinx.android.synthetic.main.fragment_book_search.*
 
 class BookSearchFragment : Fragment() {
+  private var _binding: FragmentBookSearchBinding? = null
+  private val binding get() = _binding!!
 
-  private lateinit var viewModel: BookSearchViewModel
+  private val viewModel by viewModels<BookSearchViewModel>()
 
   private lateinit var mainActivityDelegate: MainActivityDelegate
 
@@ -69,24 +70,30 @@ class BookSearchFragment : Fragment() {
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                            savedInstanceState: Bundle?): View? {
-    return inflater.inflate(R.layout.fragment_book_search, container, false)
+                            savedInstanceState: Bundle?): View {
+    // Inflate the layout for this fragment
+    _binding = FragmentBookSearchBinding.inflate(inflater, container, false)
+    return binding.root
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
-    viewModel = ViewModelProviders.of(this).get(BookSearchViewModel::class.java)
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
 
     viewModel.updateSearchCriteria(SearchCriteria.ALL)
 
-    initToolbar(toolbar, R.string.book_search, false)
-    mainActivityDelegate.setupNavDrawer(toolbar)
+    initToolbar(binding.toolbar, R.string.book_search, false)
+    mainActivityDelegate.setupNavDrawer(binding.toolbar)
     mainActivityDelegate.enableNavDrawer(true)
 
     initCriteriaSpinner()
     initAdapter()
 
-    tvSearch.setOnEditorActionListener { textView, actionId, _ ->
+    binding.tvSearch.setOnEditorActionListener { textView, actionId, _ ->
 
       when (actionId) {
         EditorInfo.IME_ACTION_SEARCH -> {
@@ -110,20 +117,20 @@ class BookSearchFragment : Fragment() {
   }
 
   private fun initCriteriaSpinner() {
-    val adapter = ArrayAdapter<String>(
+    val adapter = ArrayAdapter(
         requireContext(),
         R.layout.item_search_criteria,
-        SearchCriteria.values().map {
-          it.name
+        SearchCriteria.values().map { searchCriteria ->
+          searchCriteria.name
         }
     )
     adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
 
-    spnCriteria.adapter = adapter
+    binding.spnCriteria.adapter = adapter
 
-    spnCriteria.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+    binding.spnCriteria.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
       override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        viewModel.updateSearchCriteria(SearchCriteria.valueOf(spnCriteria.adapter.getItem(p2) as String))
+        viewModel.updateSearchCriteria(SearchCriteria.valueOf(binding.spnCriteria.adapter.getItem(p2) as String))
       }
 
       override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -134,20 +141,20 @@ class BookSearchFragment : Fragment() {
   private fun initAdapter() {
     val adapter = WorksAdapter(Glide.with(this))
 
-    rvBooks.adapter = adapter
+    binding.rvBooks.adapter = adapter
     adapter.itemClickListener = {
       findNavController().navigate(
-          R.id.actionBookDetails,
+          R.id.bookDetailsGraph, //R.id.actionBookDetails,
           WorkDetailsViewModel.createArguments(it)
       )
     }
 
-    viewModel.data.observe(this, Observer {
+    viewModel.data.observe(viewLifecycleOwner, {
       adapter.submitList(it)
     })
 
-    viewModel.networkState.observe(this, Observer {
-      progressBar.visibility = when (it) {
+    viewModel.networkState.observe(viewLifecycleOwner, {
+      binding.progressBar.visibility = when (it) {
         NetworkState.LOADING -> View.VISIBLE
         else -> View.GONE
       }

@@ -30,59 +30,67 @@
 
 package com.raywenderlich.android.bookmanstreasure.ui.bookdetails
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.raywenderlich.android.bookmanstreasure.R
+import com.raywenderlich.android.bookmanstreasure.databinding.FragmentBookDetailsBinding
 import com.raywenderlich.android.bookmanstreasure.ui.authordetails.AuthorDetailsViewModel
 import com.raywenderlich.android.bookmanstreasure.ui.workdetails.AuthorsAdapter
 import com.raywenderlich.android.bookmanstreasure.util.initToolbar
-import kotlinx.android.synthetic.main.fragment_book_details.*
 
 class BookDetailsFragment : Fragment() {
 
-  private lateinit var viewModel: BookDetailsViewModel
+  private var _binding: FragmentBookDetailsBinding? = null
+  private val binding get() = _binding!!
+
+  private val viewModel by viewModels<BookDetailsViewModel>()
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                            savedInstanceState: Bundle?): View? {
-    return inflater.inflate(R.layout.fragment_book_details, container, false)
+                            savedInstanceState: Bundle?): View {
+    // Inflate the layout for this fragment
+    _binding = FragmentBookDetailsBinding.inflate(inflater, container, false)
+    return binding.root
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
-    viewModel = ViewModelProviders.of(this).get(BookDetailsViewModel::class.java)
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
+  }
 
-    initToolbar(toolbar, 0, true)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    initToolbar(binding.toolbar, 0, true)
     initDetails()
 
     viewModel.loadArguments(arguments)
   }
 
   private fun initDetails() {
-    viewModel.book.observe(this, Observer {
+    viewModel.book.observe(viewLifecycleOwner, {
 
       if (it?.cover?.medium != null) {
         Glide.with(this)
             .load(it.cover.medium)
             .error(Glide.with(this).load(R.drawable.book_cover_missing))
-            .into(ivCover)
+            .into(binding.ivCover)
       } else {
         Glide.with(this)
             .load(R.drawable.book_cover_missing)
-            .into(ivCover)
+            .into(binding.ivCover)
       }
 
-      toolbar.title = it?.title
-      toolbar.subtitle = it?.subtitle
+      binding.toolbar.title = it?.title
+      binding.toolbar.subtitle = it?.subtitle
 
-      tvNumberOfPages.text = getString(R.string.number_of_pages, it?.numberOfPages)
-      tvPublishedYear.text = getString(R.string.published_year, it?.publishDate)
+      binding.tvNumberOfPages.text = getString(R.string.number_of_pages, it?.numberOfPages)
+      binding.tvPublishedYear.text = getString(R.string.published_year, it?.publishDate)
 
       val adapter = AuthorsAdapter(it?.authors ?: ArrayList())
       adapter.itemCLickListener = {
@@ -92,7 +100,7 @@ class BookDetailsFragment : Fragment() {
         )
       }
 
-      rvAuthors.adapter = adapter
+      binding.rvAuthors.adapter = adapter
     })
   }
 }

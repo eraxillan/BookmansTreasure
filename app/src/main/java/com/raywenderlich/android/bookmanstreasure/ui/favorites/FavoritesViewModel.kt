@@ -36,6 +36,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.raywenderlich.android.bookmanstreasure.repository.FavoritesRepository
 
+// FIXME: replace deprecated `LivePagedListBuilder` with `PagingData`
 class FavoritesViewModel(app: Application) : AndroidViewModel(app) {
 
   companion object {

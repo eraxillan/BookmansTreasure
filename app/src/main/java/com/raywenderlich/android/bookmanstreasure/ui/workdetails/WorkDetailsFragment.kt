@@ -30,27 +30,29 @@
 
 package com.raywenderlich.android.bookmanstreasure.ui.workdetails
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.*
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.raywenderlich.android.bookmanstreasure.R
 import com.raywenderlich.android.bookmanstreasure.data.Author
 import com.raywenderlich.android.bookmanstreasure.data.Work
+import com.raywenderlich.android.bookmanstreasure.databinding.FragmentWorkDetailsBinding
 import com.raywenderlich.android.bookmanstreasure.source.NetworkState
 import com.raywenderlich.android.bookmanstreasure.ui.authordetails.AuthorDetailsViewModel
 import com.raywenderlich.android.bookmanstreasure.ui.bookdetails.BookDetailsViewModel
 import com.raywenderlich.android.bookmanstreasure.util.CoverSize
 import com.raywenderlich.android.bookmanstreasure.util.initToolbar
 import com.raywenderlich.android.bookmanstreasure.util.loadCover
-import kotlinx.android.synthetic.main.fragment_work_details.*
 
 class WorkDetailsFragment : Fragment() {
 
-  private lateinit var viewModel: WorkDetailsViewModel
+  private var _binding: FragmentWorkDetailsBinding? = null
+  private val binding get() = _binding!!
+
+  private val viewModel by viewModels<WorkDetailsViewModel>()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -58,8 +60,25 @@ class WorkDetailsFragment : Fragment() {
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                            savedInstanceState: Bundle?): View? {
-    return inflater.inflate(R.layout.fragment_work_details, container, false)
+                            savedInstanceState: Bundle?): View {
+    // Inflate the layout for this fragment
+    _binding = FragmentWorkDetailsBinding.inflate(inflater, container, false)
+    return binding.root
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    initToolbar(binding.toolbar, 0, true)
+    initDetails()
+    initEditionsAdapter()
+
+    binding.toolbar.postDelayed({ viewModel.loadArguments(arguments) }, 100)
   }
 
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -78,41 +97,30 @@ class WorkDetailsFragment : Fragment() {
     }
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
-    viewModel = ViewModelProviders.of(this).get(WorkDetailsViewModel::class.java)
-
-    initToolbar(toolbar, 0, true)
-    initDetails()
-    initEditionsAdapter()
-
-    toolbar.postDelayed({ viewModel.loadArguments(arguments) }, 100)
-  }
-
   private fun initDetails() {
-    viewModel.work.observe(this, Observer { work ->
+    viewModel.work.observe(viewLifecycleOwner, { work ->
 
       if (work?.coverId != null) {
         Glide.with(this)
             .loadCover(work.coverId, CoverSize.M)
             .error(Glide.with(this).load(R.drawable.book_cover_missing))
-            .into(ivCover)
+            .into(binding.ivCover)
       } else {
         Glide.with(this)
             .load(R.drawable.book_cover_missing)
-            .into(ivCover)
+            .into(binding.ivCover)
       }
 
-      toolbar.title = work?.title
-      toolbar.subtitle = work?.subtitle
+      binding.toolbar.title = work?.title
+      binding.toolbar.subtitle = work?.subtitle
 
-      viewModel.favorite.observe(this@WorkDetailsFragment, Observer { favorite ->
+      viewModel.favorite.observe(viewLifecycleOwner, { favorite ->
         if (favorite != null) {
-          toolbar.menu.findItem(R.id.menuAddFavorite)?.isVisible = false
-          toolbar.menu.findItem(R.id.menuRemoveFavorite)?.isVisible = true
+          binding.toolbar.menu.findItem(R.id.menuAddFavorite)?.isVisible = false
+          binding.toolbar.menu.findItem(R.id.menuRemoveFavorite)?.isVisible = true
         } else {
-          toolbar.menu.findItem(R.id.menuAddFavorite)?.isVisible = true
-          toolbar.menu.findItem(R.id.menuRemoveFavorite)?.isVisible = false
+          binding.toolbar.menu.findItem(R.id.menuAddFavorite)?.isVisible = true
+          binding.toolbar.menu.findItem(R.id.menuRemoveFavorite)?.isVisible = false
         }
       })
 
@@ -124,11 +132,11 @@ class WorkDetailsFragment : Fragment() {
         )
       }
 
-      rvAuthors.adapter = adapter
+      binding.rvAuthors.adapter = adapter
 
       val numberOfEditions = work?.editionIsbns?.size ?: 0
 
-      tvEditions.text = resources.getQuantityString(R.plurals.editions_available,
+      binding.tvEditions.text = resources.getQuantityString(R.plurals.editions_available,
           numberOfEditions, numberOfEditions)
     })
   }
@@ -136,20 +144,19 @@ class WorkDetailsFragment : Fragment() {
   private fun initEditionsAdapter() {
     val adapter = BooksAdapter(Glide.with(this))
 
-    rvEditions.adapter = adapter
+    binding.rvEditions.adapter = adapter
     adapter.itemClickListener = {
       findNavController().navigate(
           R.id.actionShowEdition,
           BookDetailsViewModel.createArguments(it)
-      )
-    }
+    )}
 
-    viewModel.data.observe(this, Observer {
+    viewModel.data.observe(viewLifecycleOwner, {
       adapter.submitList(it)
     })
 
-    viewModel.networkState.observe(this, Observer {
-      progressBar.visibility = when (it) {
+    viewModel.networkState.observe(viewLifecycleOwner, {
+      binding.progressBar.visibility = when (it) {
         NetworkState.LOADING -> View.VISIBLE
         else -> View.GONE
       }
@@ -160,7 +167,7 @@ class WorkDetailsFragment : Fragment() {
     val authors = ArrayList<Author>()
 
     if (it?.authorName?.size != null) {
-      for (i in 0 until it.authorName.size) {
+      for (i in it.authorName.indices) {
         authors.add(
             Author(
                 it.authorName[i],

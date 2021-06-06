@@ -40,6 +40,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
+// FIXME: replace deprecated `PageKeyedDataSource` with `PagingSource<Int, Book>`
 class BookDataSource(
     private val openLibraryApi: OpenLibraryApi,
     private val work: Work?
@@ -64,7 +65,7 @@ class BookDataSource(
       startIndex + count
     }
 
-    val query = if (!isbns.isEmpty()) {
+    val query = if (isbns.isNotEmpty()) {
       isbns.subList(startIndex, endIndex).map { "ISBN:$it" }.reduce { acc, s -> "$acc,$s" }
     } else {
       ""

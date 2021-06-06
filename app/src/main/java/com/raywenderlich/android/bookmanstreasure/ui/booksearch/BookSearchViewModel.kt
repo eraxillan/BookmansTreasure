@@ -40,6 +40,7 @@ import com.raywenderlich.android.bookmanstreasure.data.SearchCriteria
 import com.raywenderlich.android.bookmanstreasure.source.NetworkState
 import com.raywenderlich.android.bookmanstreasure.source.WorkDataSourceFactory
 
+// FIXME: replace deprecated `LivePagedListBuilder` with `PagingData`
 class BookSearchViewModel : ViewModel() {
   companion object {
     private const val PAGE_SIZE = 100

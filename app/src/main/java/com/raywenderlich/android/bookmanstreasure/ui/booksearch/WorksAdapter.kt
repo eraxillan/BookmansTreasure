@@ -44,6 +44,7 @@ import com.raywenderlich.android.bookmanstreasure.data.Work
 import com.raywenderlich.android.bookmanstreasure.util.CoverSize
 import com.raywenderlich.android.bookmanstreasure.util.loadCover
 
+// FIXME: replace deprecated `PagedListAdapter` with `PagingDataAdapter`
 class WorksAdapter(
     private val glide: RequestManager,
     var itemClickListener: ((Work) -> Unit)? = null

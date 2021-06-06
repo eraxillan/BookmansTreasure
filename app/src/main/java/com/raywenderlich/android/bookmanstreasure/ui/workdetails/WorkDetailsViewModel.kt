@@ -44,6 +44,7 @@ import com.raywenderlich.android.bookmanstreasure.repository.FavoritesRepository
 import com.raywenderlich.android.bookmanstreasure.source.BookDataSourceFactory
 import com.raywenderlich.android.bookmanstreasure.source.NetworkState
 
+// FIXME: replace deprecated `LivePagedListBuilder` with `PagingData`
 class WorkDetailsViewModel(app: Application) : AndroidViewModel(app) {
 
   companion object {

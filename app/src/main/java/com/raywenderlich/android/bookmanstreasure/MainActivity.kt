@@ -36,40 +36,51 @@ import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.raywenderlich.android.bookmanstreasure.databinding.ActivityMainBinding
 import com.raywenderlich.android.bookmanstreasure.destinations.AuthorDetailsNavigator
 import com.raywenderlich.android.bookmanstreasure.ui.MainActivityDelegate
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 class MainActivity : AppCompatActivity(), MainActivityDelegate {
+
+  private var _binding: ActivityMainBinding? = null
+  // This property is only valid between `onCreate` and `onDestroy`
+  private val binding get() = _binding!!
 
   override fun onCreate(savedInstanceState: Bundle?) {
     setTheme(R.style.AppTheme)
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
 
-    navHostFragment.findNavController().navigatorProvider.addNavigator(
-        AuthorDetailsNavigator(navHostFragment.childFragmentManager)
-    )
-    val inflater = navHostFragment.findNavController().navInflater
+    _binding = ActivityMainBinding.inflate(layoutInflater)
+    setContentView(binding.root)
+
+    val destination = AuthorDetailsNavigator(findChildFragmentManager())
+    findNavController().navigatorProvider.addNavigator(destination)
+
+    val inflater = findNavController().navInflater
     val graph = inflater.inflate(R.navigation.nav_graph)
-    navHostFragment.findNavController().graph = graph
+    findNavController().graph = graph
+  }
+
+  override fun onDestroy() {
+    _binding = null
+    super.onDestroy()
   }
 
   override fun onNewIntent(intent: Intent?) {
     super.onNewIntent(intent)
 
-    findNavController(this, R.id.navHostFragment).handleDeepLink(intent)
+    findNavController().handleDeepLink(intent)
   }
 
-  override fun onSupportNavigateUp() = findNavController(this, R.id.navHostFragment).navigateUp()
+  override fun onSupportNavigateUp() = findNavController().navigateUp()
 
   override fun onBackPressed() {
-    if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-      drawerLayout.closeDrawer(GravityCompat.START)
+    if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+      binding.drawerLayout.closeDrawer(GravityCompat.START)
     } else {
       super.onBackPressed()
     }
@@ -77,14 +88,28 @@ class MainActivity : AppCompatActivity(), MainActivityDelegate {
 
   override fun setupNavDrawer(toolbar: Toolbar) {
     val toggle = ActionBarDrawerToggle(
-        this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-    drawerLayout.addDrawerListener(toggle)
+      this, binding.drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+    binding.drawerLayout.addDrawerListener(toggle)
     toggle.syncState()
 
-    drawerLayout.navView.setupWithNavController(navHostFragment.findNavController())
+    binding.navView.setupWithNavController(findNavController())
   }
 
   override fun enableNavDrawer(enable: Boolean) {
-    drawerLayout.isEnabled = enable
+    binding.drawerLayout.isEnabled = enable
+  }
+
+  private fun findChildFragmentManager(): FragmentManager {
+    val navHostFragment = supportFragmentManager
+      .findFragmentById(R.id.navHostFragment) as NavHostFragment
+    return navHostFragment.childFragmentManager
+  }
+
+  private fun findNavController(): NavController {
+    // https://developer.android.com/guide/navigation/navigation-getting-started#navigate
+    // https://issuetracker.google.com/issues/142847973
+    val navHostFragment = supportFragmentManager
+      .findFragmentById(R.id.navHostFragment) as NavHostFragment
+    return navHostFragment.navController
   }
 }

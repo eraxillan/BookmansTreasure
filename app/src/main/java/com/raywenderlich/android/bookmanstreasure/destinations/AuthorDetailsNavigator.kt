@@ -37,7 +37,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import com.raywenderlich.android.bookmanstreasure.ui.authordetails.AuthorDetailsDialog
 
-
 @Navigator.Name("author")
 class AuthorDetailsNavigator(
     private val manager: FragmentManager
@@ -53,10 +52,11 @@ class AuthorDetailsNavigator(
     navOptions: NavOptions?,
     navigatorExtras: Extras?
   ): NavDestination? {
-    val dialogFragment = AuthorDetailsDialog()
-    dialogFragment.arguments = args
-    dialogFragment.show(manager, TAG)
-    return createDestination()
+    val dialog = AuthorDetailsDialog()
+    dialog.arguments = args
+    dialog.show(manager, TAG)
+    //return createDestination()
+    return null
   }
 
   override fun createDestination(): Destination {

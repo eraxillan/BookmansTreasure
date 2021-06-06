@@ -30,8 +30,6 @@
 
 package com.raywenderlich.android.bookmanstreasure.ui.authordetails
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
@@ -40,10 +38,11 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
+import androidx.fragment.app.viewModels
 import com.raywenderlich.android.bookmanstreasure.R
 
 class AuthorDetailsDialog : DialogFragment() {
-  private lateinit var viewModel: AuthorDetailsViewModel
+  private val viewModel by viewModels<AuthorDetailsViewModel>()
 
   private lateinit var webView: WebView
 
@@ -58,9 +57,9 @@ class AuthorDetailsDialog : DialogFragment() {
     return rootView
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
-    viewModel = ViewModelProviders.of(this).get(AuthorDetailsViewModel::class.java)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
     initAuthorWebView()
 
     viewModel.loadArguments(arguments)
@@ -68,7 +67,7 @@ class AuthorDetailsDialog : DialogFragment() {
 
   private fun initAuthorWebView() {
     webView.webViewClient = WebViewClient()
-    viewModel.author.observe(this, Observer {
+    viewModel.author.observe(this, {
       val url = it?.url
       val authorUrl = if (url?.startsWith(context?.getString(R.string.http_prefix) ?: "") == true) {
         url

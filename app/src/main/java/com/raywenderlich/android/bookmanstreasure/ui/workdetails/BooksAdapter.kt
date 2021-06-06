@@ -42,6 +42,7 @@ import com.bumptech.glide.RequestManager
 import com.raywenderlich.android.bookmanstreasure.R
 import com.raywenderlich.android.bookmanstreasure.data.Book
 
+// FIXME: replace deprecated `PagedListAdapter` with `PagingDataAdapter`
 class BooksAdapter(
     private val glide: RequestManager,
     var itemClickListener: ((Book) -> Unit)? = null

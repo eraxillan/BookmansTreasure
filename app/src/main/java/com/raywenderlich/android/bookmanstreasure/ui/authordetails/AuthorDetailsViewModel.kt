@@ -40,9 +40,9 @@ class AuthorDetailsViewModel : ViewModel() {
   companion object {
     private const val AUTHOR_ARGUMENT = "author"
 
-    fun createArguments(autor: Author): Bundle {
+    fun createArguments(author: Author): Bundle {
       val bundle = Bundle()
-      bundle.putSerializable(AUTHOR_ARGUMENT, autor)
+      bundle.putSerializable(AUTHOR_ARGUMENT, author)
 
       return bundle
     }
@@ -55,7 +55,7 @@ class AuthorDetailsViewModel : ViewModel() {
       return
     }
 
-    val author: Author? = arguments.get(AUTHOR_ARGUMENT) as Author
+    val author: Author = arguments.get(AUTHOR_ARGUMENT) as Author
     this.author.postValue(author)
   }
 }

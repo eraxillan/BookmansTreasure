@@ -17,10 +17,10 @@ buildscript {
     // FIXME: get rid on `anko` library
     anko_version = '0.10.5'
 
-    nav_version = '2.4.0-alpha01'
+    nav_version = '2.4.0-alpha02'
     nav_version_args = '2.3.5'
     appcompat_version = '1.3.0'
-    material_version = '1.3.0'
+    material_version = '1.4.0-rc01'
     constraintlayout_version = '2.0.4'
     lifecycle_extensions_version = '2.2.0'
     paging_runtime_version = '3.0.0'

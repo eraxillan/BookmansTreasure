@@ -45,7 +45,12 @@ dependencies {
   // Java 8+ API "desugaring" support: allow using new APIs on older versions of Android
   coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_jdk_libs_version"
 
+  // FIXME: replace with coroutines, View Binding etc.
   implementation "org.jetbrains.anko:anko-commons:$anko_version"
+
+  //Coroutines
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3'
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'
 
   implementation "androidx.appcompat:appcompat:$appcompat_version"
   implementation "com.google.android.material:material:$material_version"
@@ -54,6 +59,7 @@ dependencies {
 
   implementation "androidx.paging:paging-runtime-ktx:$paging_runtime_version"
 
+  implementation "androidx.room:room-ktx:$room_version"
   implementation "androidx.room:room-runtime:$room_version"
   kapt "androidx.room:room-compiler:$room_version"
 
